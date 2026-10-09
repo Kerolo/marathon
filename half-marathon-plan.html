@@ -1,0 +1,356 @@
+<title>半马特训 21.1K</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Barlow+Semi+Condensed:wght@600;700&display=swap">
+<style>
+  :root {
+    --bg: #f2f2ef;
+    --surface: #ffffff;
+    --surface-2: #faf9f6;
+    --ink: #1c1e24;
+    --muted: #74747d;
+    --line: #e6e4df;
+    --accent: #d9462b;
+    --accent-soft: #fbe7e0;
+    --easy: #0d7b76;
+    --easy-soft: #d9efed;
+    --rest: #a2a2a9;
+    --rest-soft: #ededeb;
+    --shadow: 0 1px 2px rgba(20,20,25,.05), 0 6px 20px rgba(20,20,25,.04);
+    --font-body: 'Barlow', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+    --font-disp: 'Barlow Condensed', 'Barlow', 'PingFang SC', system-ui, sans-serif;
+    --font-num: 'Barlow Semi Condensed', 'Barlow', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #15171c;
+      --surface: #1e2128;
+      --surface-2: #23262e;
+      --ink: #edeef1;
+      --muted: #9a9ca6;
+      --line: #2c2f38;
+      --accent: #f06a4e;
+      --accent-soft: #3a211b;
+      --easy: #35b7b1;
+      --easy-soft: #14312f;
+      --rest: #6d7079;
+      --rest-soft: #262930;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #15171c;
+    --surface: #1e2128;
+    --surface-2: #23262e;
+    --ink: #edeef1;
+    --muted: #9a9ca6;
+    --line: #2c2f38;
+    --accent: #f06a4e;
+    --accent-soft: #3a211b;
+    --easy: #35b7b1;
+    --easy-soft: #14312f;
+    --rest: #6d7079;
+    --rest-soft: #262930;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); line-height: 1.45; }
+  .wrap { max-width: 540px; margin: 0 auto; padding: 0 16px 56px; }
+
+  /* Header */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    margin: 0 -16px; padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brandline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  h1 {
+    font-family: var(--font-disp); font-weight: 700; font-size: 26px;
+    letter-spacing: .3px; margin: 0; line-height: 1;
+  }
+  h1 .k { color: var(--accent); }
+  .countdown {
+    font-family: var(--font-num); font-weight: 700; text-align: right; line-height: 1; white-space: nowrap;
+  }
+  .countdown b { font-size: 26px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .countdown span { display: block; font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-top: 3px; }
+  .goal { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .goal b { color: var(--ink); font-weight: 600; }
+
+  .progress { margin-top: 11px; }
+  .bar { height: 7px; border-radius: 99px; background: var(--rest-soft); overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--accent); transition: width .35s ease; }
+  .progress .lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 5px; font-family: var(--font-num); letter-spacing: .3px; }
+  .progress .lbl b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* Section titles */
+  h2 {
+    font-family: var(--font-disp); font-weight: 600; font-size: 13px;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    margin: 26px 2px 10px;
+  }
+
+  /* Pace tiles */
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 12px 11px; box-shadow: var(--shadow); }
+  .tile .cap { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .tile .val { font-family: var(--font-num); font-weight: 700; font-size: 21px; margin-top: 5px; font-variant-numeric: tabular-nums; line-height: 1; }
+  .tile .u { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .tile.long .val { color: var(--accent); }
+  .tile.easy .val { color: var(--easy); }
+
+  /* Week block */
+  .week { margin-top: 22px; }
+  .week-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 0 2px 9px; }
+  .week-head .name { font-family: var(--font-disp); font-weight: 700; font-size: 17px; letter-spacing: .4px; }
+  .week-head .range { font-family: var(--font-num); font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .phase { font-size: 10.5px; font-weight: 600; letter-spacing: .6px; padding: 2px 8px; border-radius: 99px; }
+  .ph-rebuild { background: var(--easy-soft); color: var(--easy); }
+  .ph-build   { background: var(--easy-soft); color: var(--easy); }
+  .ph-peak    { background: var(--accent-soft); color: var(--accent); }
+  .ph-taper   { background: var(--rest-soft); color: var(--muted); }
+
+  .days { display: flex; flex-direction: column; gap: 7px; }
+  .day {
+    display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 11px;
+    background: var(--surface); border: 1px solid var(--line); border-left-width: 4px;
+    border-radius: 12px; padding: 10px 12px 10px 11px; box-shadow: var(--shadow);
+  }
+  .day.t-easy { border-left-color: var(--easy); }
+  .day.t-long { border-left-color: var(--accent); }
+  .day.t-rest { border-left-color: var(--rest); }
+  .day.t-race { border-left-color: var(--accent); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .day.done { opacity: .62; }
+  .day.done .task .t { text-decoration: line-through; text-decoration-color: var(--muted); }
+
+  .date { text-align: center; line-height: 1; }
+  .date b { font-family: var(--font-num); font-weight: 700; font-size: 17px; display: block; font-variant-numeric: tabular-nums; letter-spacing: .3px; }
+  .date span { font-size: 10.5px; color: var(--muted); display: block; margin-top: 3px; }
+
+  .task { min-width: 0; }
+  .task .t { font-weight: 600; font-size: 14.5px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .task .s { font-size: 12px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .today-badge { font-size: 9.5px; font-weight: 700; letter-spacing: .5px; color: #fff; background: var(--accent); padding: 1px 6px; border-radius: 99px; }
+  .t-race .task .t { color: var(--accent); font-family: var(--font-disp); font-size: 17px; letter-spacing: .3px; }
+
+  /* checkbox */
+  .chk { position: relative; width: 28px; height: 28px; flex: none; cursor: pointer; }
+  .chk input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chk span {
+    position: absolute; inset: 0; border: 2px solid var(--line); border-radius: 8px;
+    display: grid; place-items: center; transition: background .15s, border-color .15s;
+  }
+  .chk span::after { content: ""; width: 11px; height: 6px; border-left: 2.5px solid #fff; border-bottom: 2.5px solid #fff; transform: rotate(-45deg) scale(0); transform-origin: center; margin-top: -2px; transition: transform .15s; }
+  .chk input:checked + span { background: var(--accent); border-color: var(--accent); }
+  .chk input:checked + span::after { transform: rotate(-45deg) scale(1); }
+  .chk input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .day.t-rest .chk input:checked + span { background: var(--rest); border-color: var(--rest); }
+
+  /* Race card */
+  .racecard { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); overflow: hidden; }
+  .racecard .legs { display: flex; flex-direction: column; gap: 0; }
+  .leg { display: grid; grid-template-columns: 70px 1fr; gap: 12px; padding: 11px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+  .leg:last-child { border-bottom: 0; }
+  .leg .km { font-family: var(--font-num); font-weight: 700; font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .leg .pace { font-family: var(--font-num); font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .leg .note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); }
+  .chip b { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* Tips */
+  .tips { background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px; padding: 15px 17px; }
+  .tips ul { margin: 0; padding-left: 18px; }
+  .tips li { font-size: 13px; margin: 7px 0; }
+  .tips li::marker { color: var(--accent); }
+  .tips b { font-weight: 600; }
+
+  .reset { display: block; margin: 22px auto 0; background: none; border: 1px solid var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; padding: 8px 16px; border-radius: 99px; cursor: pointer; }
+  .reset:hover { color: var(--ink); border-color: var(--muted); }
+  .foot { text-align: center; font-size: 11px; color: var(--muted); margin-top: 16px; line-height: 1.6; }
+
+  @media (max-width: 360px) {
+    .tiles { grid-template-columns: 1fr 1fr; }
+    .tile:first-child { grid-column: 1 / -1; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brandline">
+      <h1>半马特训 <span class="k">21.1K</span></h1>
+      <div class="countdown"><b id="cd">–</b><span id="cdlbl">距比赛</span></div>
+    </div>
+    <div class="goal">目标：<b>安全完赛，终点身体还 OK</b> · 全程轻松配速 + 跑走结合</div>
+    <div class="progress">
+      <div class="bar"><i id="barfill"></i></div>
+      <div class="lbl"><span>训练完成度</span><span><b id="pdone">0</b> / <b id="ptot">11</b> 次</span></div>
+    </div>
+  </header>
+
+  <h2>配速参考</h2>
+  <div class="tiles">
+    <div class="tile easy"><div class="cap">轻松 / 短跑</div><div class="val">7:15–7:45<span class="u"> /km</span></div></div>
+    <div class="tile long"><div class="cap">长距离</div><div class="val">7:30–8:00<span class="u"> /km</span></div></div>
+    <div class="tile"><div class="cap">比赛目标</div><div class="val">2:35–2:50<span class="u"> 完赛</span></div></div>
+  </div>
+
+  <div id="weeks"></div>
+
+  <h2>比赛日配速卡 · 11/1</h2>
+  <div class="racecard">
+    <div class="legs">
+      <div class="leg"><div class="km">0–5 km</div><div><div class="pace">7:45–7:50</div><div class="note">刻意压住，感觉"是不是太慢了"才对</div></div></div>
+      <div class="leg"><div class="km">5–16 km</div><div><div class="pace">7:20–7:40</div><div class="note">稳住节奏，别加速，别追人</div></div></div>
+      <div class="leg"><div class="km">16–21 km</div><div><div class="pace">有力就提速</div><div class="note">没力就保持，匀速跑完即成功</div></div></div>
+    </div>
+    <div class="chips">
+      <span class="chip">跑走 <b>8–9</b> 分 / 走 <b>1</b> 分</span>
+      <span class="chip">每 <b>40–45</b> 分 1 个能量胶配水</span>
+      <span class="chip">慢出发</span>
+      <span class="chip">不穿新鞋</span>
+    </div>
+  </div>
+
+  <h2>补给与提醒</h2>
+  <div class="tips">
+    <ul>
+      <li>长距离里<b>先练好补给</b>（能量胶/软糖 + 水），比赛日别第一次吃。</li>
+      <li>赛前 2.5–3 小时吃<b>熟悉好消化的碳水</b>早餐，别尝试新东西。</li>
+      <li>出现<b>关节刺痛、单侧明显疼痛、步态改变</b>立刻改走——宁可砍一次训练也别带伤上场。</li>
+      <li>赛前周<b>睡眠比临时加练更重要</b>；每天几分钟拉伸放松小腿、股四头、臀。</li>
+      <li>两次长距离之间至少隔一天完全休息。</li>
+    </ul>
+  </div>
+
+  <button class="reset" id="reset">清除所有打勾</button>
+  <div class="foot">前半程慢到让自己怀疑，后半程才有本钱。<br>加油，享受你的第一个半马 🏃</div>
+</div>
+
+<script>
+  var DAYS = [
+    { w:"本周 · 重建", range:"10/8 – 10/11", phase:"ph-rebuild", phaseLabel:"重建",
+      items:[
+        {d:"2026-10-08", dow:"周四", type:"rest", t:"休息 / 轻松活动", s:"放松，别安排长跑", ses:false},
+        {d:"2026-10-09", dow:"周五", type:"easy", t:"轻松跑 5 km", s:"配速 7:15–7:45", ses:true},
+        {d:"2026-10-10", dow:"周六", type:"rest", t:"休息 / 交叉", s:"快走·骑行·拉伸皆可", ses:false},
+        {d:"2026-10-11", dow:"周日", type:"long", t:"长距离 12–13 km", s:"7:30–8:00 · 试跑走节奏", ses:true},
+      ]},
+    { w:"第 1 周 · 建立", range:"10/12 – 10/18", phase:"ph-build", phaseLabel:"建立",
+      items:[
+        {d:"2026-10-12", dow:"周一", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-13", dow:"周二", type:"easy", t:"轻松跑 5 km", s:"配速 7:15–7:45", ses:true},
+        {d:"2026-10-14", dow:"周三", type:"rest", t:"休息 / 交叉", s:"", ses:false},
+        {d:"2026-10-15", dow:"周四", type:"easy", t:"轻松跑 6–7 km", s:"配速 7:15–7:45", ses:true},
+        {d:"2026-10-16", dow:"周五", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-17", dow:"周六", type:"rest", t:"休息 / 交叉", s:"", ses:false},
+        {d:"2026-10-18", dow:"周日", type:"long", t:"长距离 15–16 km", s:"7:30–8:00 · 练补给", ses:true},
+      ]},
+    { w:"第 2 周 · 峰值", range:"10/19 – 10/25", phase:"ph-peak", phaseLabel:"峰值",
+      items:[
+        {d:"2026-10-19", dow:"周一", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-20", dow:"周二", type:"easy", t:"轻松跑 5 km", s:"配速 7:15–7:45", ses:true},
+        {d:"2026-10-21", dow:"周三", type:"rest", t:"休息 / 交叉", s:"", ses:false},
+        {d:"2026-10-22", dow:"周四", type:"easy", t:"7 km + 轻快步", s:"中段几组 20 秒加速", ses:true},
+        {d:"2026-10-23", dow:"周五", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-24", dow:"周六", type:"long", t:"长距离 17–18 km", s:"峰值 · 全套彩排", ses:true},
+        {d:"2026-10-25", dow:"周日", type:"rest", t:"休息 / 轻松走", s:"", ses:false},
+      ]},
+    { w:"赛前周 · 减量", range:"10/26 – 11/1", phase:"ph-taper", phaseLabel:"减量",
+      items:[
+        {d:"2026-10-26", dow:"周一", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-27", dow:"周二", type:"easy", t:"轻松跑 5 km", s:"配速 7:15–7:45", ses:true},
+        {d:"2026-10-28", dow:"周三", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-29", dow:"周四", type:"easy", t:"轻松跑 4 km + 短加速", s:"3–4 组短加速找腿感", ses:true},
+        {d:"2026-10-30", dow:"周五", type:"rest", t:"休息", s:"", ses:false},
+        {d:"2026-10-31", dow:"周六", type:"rest", t:"休息 或 3 km 放松跑", s:"可选，别累", ses:false},
+        {d:"2026-11-01", dow:"周日", type:"race", t:"🏁 比赛日 · 21.1 km", s:"见上方配速卡 · 慢出发", ses:true},
+      ]},
+  ];
+
+  var STORE = "hm2026-done";
+  function loadDone(){ try { return JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch(e){ return {}; } }
+  function saveDone(o){ try { localStorage.setItem(STORE, JSON.stringify(o)); } catch(e){} }
+  var done = loadDone();
+
+  function todayStr(){
+    var n = new Date();
+    return n.getFullYear() + "-" + String(n.getMonth()+1).padStart(2,"0") + "-" + String(n.getDate()).padStart(2,"0");
+  }
+  var TODAY = todayStr();
+
+  var totalSes = 0;
+  DAYS.forEach(function(w){ w.items.forEach(function(it){ if(it.ses) totalSes++; }); });
+
+  function mdLabel(d){ var p = d.split("-"); return (+p[1]) + "/" + (+p[2]); }
+
+  function render(){
+    var root = document.getElementById("weeks");
+    root.innerHTML = "";
+    DAYS.forEach(function(w){
+      var sec = document.createElement("section");
+      sec.className = "week";
+      var head = '<div class="week-head"><span class="name">' + w.w.split(" · ")[0] +
+        '</span><span class="range">' + w.range + '</span><span class="phase ' + w.phase + '">' + w.phaseLabel + '</span></div>';
+      var rows = '<div class="days">';
+      w.items.forEach(function(it){
+        var isToday = it.d === TODAY;
+        var checked = !!done[it.d];
+        rows += '<div class="day t-' + it.type + (checked ? ' done' : '') + '">' +
+          '<div class="date"><b>' + mdLabel(it.d) + '</b><span>' + it.dow + '</span></div>' +
+          '<div class="task"><div class="t">' + it.t + (isToday ? ' <span class="today-badge">今天</span>' : '') + '</div>' +
+          (it.s ? '<div class="s">' + it.s + '</div>' : '') + '</div>' +
+          '<label class="chk"><input type="checkbox" id="c' + it.d + '" data-d="' + it.d + '"' + (checked ? ' checked' : '') + '><span></span></label>' +
+          '</div>';
+      });
+      rows += '</div>';
+      sec.innerHTML = head + rows;
+      root.appendChild(sec);
+    });
+    bind();
+    updateProgress();
+  }
+
+  function bind(){
+    document.querySelectorAll('.chk input').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var d = cb.getAttribute('data-d');
+        if (cb.checked) done[d] = 1; else delete done[d];
+        saveDone(done);
+        cb.closest('.day').classList.toggle('done', cb.checked);
+        updateProgress();
+      });
+    });
+  }
+
+  function updateProgress(){
+    var n = 0;
+    DAYS.forEach(function(w){ w.items.forEach(function(it){ if(it.ses && done[it.d]) n++; }); });
+    document.getElementById('pdone').textContent = n;
+    document.getElementById('ptot').textContent = totalSes;
+    document.getElementById('barfill').style.width = Math.round(n/totalSes*100) + '%';
+  }
+
+  function updateCountdown(){
+    var race = new Date(2026, 10, 1);
+    var n = new Date(); n.setHours(0,0,0,0);
+    var diff = Math.round((race - n) / 86400000);
+    var cd = document.getElementById('cd'), lbl = document.getElementById('cdlbl');
+    if (diff > 1) { cd.textContent = diff; lbl.textContent = "天 后比赛"; }
+    else if (diff === 1) { cd.textContent = 1; lbl.textContent = "天 后比赛"; }
+    else if (diff === 0) { cd.textContent = "GO"; lbl.textContent = "就是今天"; }
+    else { cd.textContent = "✓"; lbl.textContent = "已完赛"; }
+  }
+
+  document.getElementById('reset').addEventListener('click', function(){
+    done = {}; saveDone(done); render();
+  });
+
+  render();
+  updateCountdown();
+</script>
